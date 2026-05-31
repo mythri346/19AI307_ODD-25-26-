@@ -1,42 +1,30 @@
-# Ex.No:3(C) ABSTRACTION
+# Ex.No:3(D)    INTERFACE 
 
 ## QUESTION:
-Create abstract class GameScore with method finalScore().  
-Subclasses:
-ArcadeGame: score = baseScore + (level × 100)
-PuzzleGame: score = (attempts ≤ 3) ? 1000 - (attempts × 100) : 500
+Each judge uses different criteria to score fighters. Based on points, the judge will declare “WIN”, “LOSE” or “DRAW”.
 
+LenientJudge: WIN if diff ≥ 5, DRAW if < 5
+
+StrictJudge: WIN if diff ≥ 10, DRAW if < 10
 ## AIM:
-To write a Java program that uses an abstract class to calculate final game scores for two types of games:  
-ArcadeGame and PuzzleGame, each implementing its own scoring logic.
 
-## ALGORITHM:
-1. Create an abstract class `GameScore` with the abstract method `finalScore()`.
-2. Create subclass `ArcadeGame` with:
-   - Attributes: `base`, `level`
-   - Scoring rule: `finalScore = base + (level × 100)`
-3. Create subclass `PuzzleGame` with:
-   - Attribute: `attempts`
-   - Scoring rule:
-     - If attempts ≤ 3 → `finalScore = 1000 - (attempts × 100)`
-     - Else → `finalScore = 500`
-4. In the `main` method:
-   - Read `type` (1 for ArcadeGame, 2 for PuzzleGame)
-   - If `type == 1`:
-     - Read `base` and `level`
-     - Create `ArcadeGame` object
-   - Else:
-     - Read `attempts`
-     - Create `PuzzleGame` object
-   - Call `finalScore()` and print the result.
-5. End the program.
+
+## ALGORITHM :
+1.	Start the program.
+2.	Import the necessary package 'java.util'
+3.	Create an interface Judge with an abstract method getResult(int fighter1, int fighter2).
+4. Create two classes LenientJudge and StrictJudge implementing the interface and applying different scoring criteria.
+5. Accept points scored by two fighters from the user.
+6. Accept judge type from the user and invoke the respective implementation.
+7. Display the result as WIN, LOSE, or DRAW.
+8.Stop the program.
 
 ## PROGRAM:
  ```
 /*
-Program to implement a conditional statement using Java
+Program to implement a Interface using Java
 Developed by: E.Mythri
-RegisterNumber:  212223240034
+RegisterNumber:212223240034
 */
 ```
 
@@ -44,64 +32,67 @@ RegisterNumber:  212223240034
 ```
 import java.util.*;
 
-abstract class GameScore
-{
-    abstract int finalScore();
+interface Judge {
+    String decide(int p1, int p2);
 }
 
-class ArcadeGame extends GameScore
-{
-    int base;
-    int level;
-    ArcadeGame(int base,int level)
-    {
-        this.base=base;
-        this.level=level;
-    }
-    @Override
-    int finalScore()
-    {
-        return (base+(level*100));
+class LenientJudge implements Judge {
+    public String decide(int p1, int p2) {
+        int diff = Math.abs(p1 - p2);
+        if (p1 > p2 && diff >= 5)
+            return "WIN";
+        else if (p2 > p1 && diff >= 5)
+            return "LOSE";
+        else
+            return "DRAW";
     }
 }
-class PuzzleGame extends GameScore
-{
-    int attempts;
-    PuzzleGame(int attempts)
-    {
-        this.attempts=attempts;
-    }
-    @Override
-    int finalScore()
-    {
-        return ((attempts <= 3) ? 1000 - (attempts * 100) : 500);
+
+class StrictJudge implements Judge {
+    public String decide(int p1, int p2) {
+        int diff = Math.abs(p1 - p2);
+        if (p1 > p2 && diff >= 10)
+            return "WIN";
+        else if (p2 > p1 && diff >= 10)
+            return "LOSE";
+        else
+            return "DRAW";
     }
 }
+
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int type = sc.nextInt();
-        GameScore game;
-        
-        if (type == 1) {
-            int base = sc.nextInt();
-            int level = sc.nextInt();
-            game = new ArcadeGame(base, level);
-        } else {
-            int attempts = sc.nextInt();
-            game = new PuzzleGame(attempts);
+        int p1 = sc.nextInt();
+        int p2 = sc.nextInt();
+        int judgeType = sc.nextInt();
+
+        Judge judge;
+        if (judgeType == 1)
+            judge = new LenientJudge();
+        else if (judgeType == 2)
+            judge = new StrictJudge();
+        else {
+            System.out.println("Invalid judge type");
+            return;
         }
-        
-        System.out.println(game.finalScore());
+
+        System.out.println(judge.decide(p1, p2));
     }
 }
 ```
 
+
+
+
+
+
+
 ## OUTPUT:
-<img width="354" height="206" alt="image" src="https://github.com/user-attachments/assets/c7d29ada-3636-4732-847f-28a95ba50bc8" />
+![java34](https://github.com/ABINAYA-27-76/19AI307_ODD-25-26-/blob/564ba08ef73efc7e73a0883948f623cfa5b0ee65/19AI307_JAVA(25-26)/Module-03/DAY-4/java34.png)
+
 
 ## RESULT:
-The program successfully calculates and displays the final score based on game type and user input using abstract methods and dynamic method dispatch.
-
+Thus, the Java program demonstrating Interface implementation using different judging criteria was executed successfully.
 
 
